@@ -1,0 +1,135 @@
+<body ng-app="wheelchairService">
+    <div>
+        Find Flight Detail
+    </div>
+    <div ng-controller="wheelchair as vm">
+        <form ng-submit="vm.submitForm(myForm.$valid)" name="myForm">
+            <table>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        <input type="text" id="demo" name="datefilter" />
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        Number
+                    </th>
+                    <th>
+                        <input type="text" name="myName" ng-model="vm.formDetail.number" ng-minlength="3" ng-maxlength="6" ng-pattern="/[A-Z]{2}[0-9]{2,4}/" required />
+                        <div ng-if="myForm.myName.$dirty">
+                            <div ng-show="myForm.myName.$error.required">You did not enter a field</div>
+                            <div ng-show="myForm.myName.$error.minlength">Your field is too short</div>
+                            <div ng-show="myForm.myName.$error.maxlength">Your field is too long</div>
+                            <div ng-show="(!myForm.myName.$error.minlength && !myForm.myName.$error.maxlength && myForm.myName.$error.pattern)">Your field is Pattern wrong</div>
+                        </div>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        <button type="reset">RESET</button>
+                    </th>
+                    <th>
+                        <button type="submit">SAVE</button>
+                    </th>
+                </tr>
+
+
+            </table>
+        </form>
+        <div ng-repeat="flightStatuses in vm.result.flightStatuses">
+
+            <table border="1">
+                <tr>
+                    <th>
+                        Searching Details
+                    </th>
+                    <th>
+                        Departure
+                    </th>
+                    <th>
+                        arrival
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Airport Name
+                    </th>
+                    <th>
+                        {{vm.airportDetail[flightStatuses.departureAirportFsCode].name}}
+                    </th>
+                    <th>
+                        {{vm.airportDetail[flightStatuses.arrivalAirportFsCode].name}}
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Airport Code
+                    </th>
+                    <th>
+                        {{flightStatuses.departureAirportFsCode}}
+                    </th>
+                    <th>
+                        {{flightStatuses.arrivalAirportFsCode}}
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        Arrivel Date
+                    </th>
+                    <th>
+                        {{ vm.dateConvert(flightStatuses.departureDate.dateLocal) }}
+                    </th>
+                    <th>
+                        {{ vm.dateConvert(flightStatuses.arrivalDate.dateLocal) }}
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Arrivel Time
+                    </th>
+                    <th>
+                        {{ vm.timeConvert(flightStatuses.departureDate.dateLocal) }}
+                    </th>
+                    <th>
+                        {{ vm.timeConvert(flightStatuses.arrivalDate.dateLocal) }}
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        {{ vm.airportDetail[flightStatuses.departureAirportFsCode].city }}
+                    </th>
+                    <th>
+                        {{vm.airportDetail[flightStatuses.arrivalAirportFsCode].city }}
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>
+                        Code Share
+                    </th>
+                    <th colspan="2">
+                        <span ng-repeat="codeshares in flightStatuses.codeshares"> 
+  {{ codeshares.fsCode}}-{{ codeshares.flightNumber }},
+</span>
+
+                    </th>
+                </tr>
+
+            </table>
+
+
+            </br>
+        </div>
+
+    </div>
+</body>
